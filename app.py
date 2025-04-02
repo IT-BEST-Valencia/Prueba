@@ -5,17 +5,19 @@ app = Flask(__name__)
 @app.route("/")
 def home():
     headers = dict(request.headers)
-    email = request.headers.get("X-MS-CLIENT-PRINCIPAL-NAME")
-    
-    
+    email = headers.get("X-MS-CLIENT-PRINCIPAL-NAME")
+
     if not email:
-        return redirect("/.auth/login/google")
+        return "<h3>❌ No estás autenticado. No se recibió ningún correo.</h3>"
 
-    if not email.endswith("@bestvalencia.org"):
-        return "<pre>" + "\n".join(f"{k}: {v}" for k, v in headers.items()) + "</pre>", 403
-    
+    return f"""
+        <h3>✅ Usuario autenticado</h3>
+        <p><strong>Email:</strong> {email}</p>
+        <p><strong>Filtro pasó:</strong> {"Sí" if email.strip().lower().endswith("@bestvalencia.org") else "NO ❌"}</p>
+        <p><strong>Raw headers:</strong></p>
+        <pre>{"".join(f"{k}: {v}\n" for k, v in headers.items())}</pre>
+    """
 
-    return f"<h1>Bienvenido, {email}</h1>"
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8000)
