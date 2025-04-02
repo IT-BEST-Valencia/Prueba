@@ -5,14 +5,15 @@ app = Flask(__name__)
 @app.route("/")
 def home():
     email = request.headers.get("X-MS-CLIENT-PRINCIPAL-NAME")
-
+    headers = dict(request.headers)
+    
     if not email:
         return redirect("/.auth/login/google")
 
     if not email.endswith("@bestvalencia.com"):
         return "<pre>" + "\n".join(f"{k}: {v}" for k, v in headers.items()) + "</pre>", 403
     
-    headers = dict(request.headers)
+    
     print( "<pre>" + "\n".join(f"{k}: {v}" for k, v in headers.items()) + "</pre>")
 
     return f"<h1>Bienvenido, {email}</h1>"
