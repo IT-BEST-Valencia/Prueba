@@ -11,11 +11,9 @@ def home():
     if not email:
         return redirect("/.auth/login/google")
 
-    if not email.endswith("@bestvalencia.com"):
+    if not email.endswith("@bestvalencia.org"):
         return "<pre>" + "\n".join(f"{k}: {v}" for k, v in headers.items()) + "</pre>", 403
     
-    
-    print( "<pre>" + "\n".join(f"{k}: {v}" for k, v in headers.items()) + "</pre>")
 
     return f"<h1>Bienvenido, {email}</h1>"
 
