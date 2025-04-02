@@ -4,8 +4,9 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    email = request.headers.get("X-MS-CLIENT-PRINCIPAL-NAME")
     headers = dict(request.headers)
+    email = request.headers.get("X-MS-CLIENT-PRINCIPAL-NAME")
+    
     
     if not email:
         return redirect("/.auth/login/google")
